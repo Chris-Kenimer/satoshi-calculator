@@ -12,7 +12,7 @@
 
   <!-- Compiled and minified JavaScript -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
-
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 
 
@@ -48,7 +48,7 @@
       </div>
     </div>
     <div class="row">
-      <div class="col s12 m12">
+      <div class="col s12 ">
         <div id="calculatedPercentageParent" class="card-panel teal">
           <span id="calculatedPercentage" class="white-text">0%</span>
         </div>
