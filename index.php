@@ -17,6 +17,19 @@
 
 
 </script>
+<style type="text/css">
+  textarea,
+input[type=text],
+input[type=search],
+input[type=number],
+input[type=email],
+input[type=password],
+input[type=tel] {
+@media (max-width: 799px) {
+font-size: 16px !important;
+}
+}
+</style>
 <body>
 <div class="container">
   
