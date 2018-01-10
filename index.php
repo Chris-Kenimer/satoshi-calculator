@@ -18,6 +18,11 @@
 
 </script>
 <style type="text/css">
+.container{
+  width: 80%;
+}
+
+
   textarea,
 input[type=text],
 input[type=search],
@@ -34,7 +39,9 @@ font-size: 16px !important;
 <div class="container">
   
   <form class="">
+
     <div class="row">
+      <h3>Maff for Dummies</h3>
       <input name="basecoin" type="radio" id="baseBTC" value="BTC"/>
       <label for="baseBTC">BTC</label>
 
