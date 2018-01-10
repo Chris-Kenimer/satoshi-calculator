@@ -20,7 +20,7 @@
 <body>
 <div class="row">
   <div id="response"></div>
-  <form class="col s12 ">
+  <form class="col s12 m12">
     <div class="row">
       <input name="basecoin" type="radio" id="baseBTC" value="BTC"/>
       <label for="baseBTC">BTC</label>
@@ -34,21 +34,21 @@
 
 
     <div class="row">
-      <div class="input-field col s12 ">
+      <div class="input-field col s12 m12">
         <input type="text" name="start-value" id="start_value">
         <label>Buy Limit (Satoshi)</label>
         <span id="buy-value"></span>
       </div>
     </div>
     <div class="row">
-      <div class="input-field col s12 ">
+      <div class="input-field col s12 m12">
         <input type="text" name="end-value" id="end_value">
         <label>Sell Limit (Satoshi)</label>
         <span id="sell-value"></span>
       </div>
     </div>
     <div class="row">
-      <div class="col s12 ">
+      <div class="col s12 m12">
         <div id="calculatedPercentageParent" class="card-panel teal">
           <span id="calculatedPercentage" class="white-text">0%</span>
         </div>
