@@ -121,9 +121,9 @@ var endValue;
       var usdDifference = difference;
       console.log(convertedPercentage + coinValue[0].price_usd);
       if(convertedPercentage < 0){
-        $("#calculatedPercentageParent").removeClass("teal").addClass("red");
+        $("#calculatedPercentageParent").toggleClass("teal").toggleClass("red");
       }else {
-        $("#calculatedPercentageParent").toggleClass("teal").removeClass("red");
+        $("#calculatedPercentageParent").toggleClass("teal").toggleClass("red");
       }
       $("#calculatedPercentage").html(convertedPercentage.toFixed(2) +"% : USD $" + usdDifference.toFixed(2));
 
