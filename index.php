@@ -12,7 +12,7 @@
 
   <!-- Compiled and minified JavaScript -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
-          
+
 </head>
 
 
@@ -20,84 +20,119 @@
 <body>
 <div class="row">
   <div id="response"></div>
-  <form class="col s12">
-    <p>
-        <input name="basecoin" type="radio" id="baseBTC" />
-        <label for="baseBTC">BTC</label>
-      </p>
-      <p>
-        <input name="basecoin" type="radio" id="baseETH" />
-        <label for="baseETH">ETH</label>
-      </p>
+  <form class="col s12 ">
+    <div class="row">
+      <input name="basecoin" type="radio" id="baseBTC" value="BTC"/>
+      <label for="baseBTC">BTC</label>
+
+      <input name="basecoin" type="radio" id="baseETH" value="ETH" checked />
+      <label for="baseETH">ETH</label>
+
+
+
+    </div>
+
 
     <div class="row">
-      <div class="input-field col s6">
+      <div class="input-field col s12 ">
         <input type="text" name="start-value" id="start_value">
         <label>Buy Limit (Satoshi)</label>
-        <span id="buy-value">USD $7.74</span>
+        <span id="buy-value"></span>
       </div>
     </div>
     <div class="row">
-      <div class="input-field col s6">
-        <input type="text" name="end-value" id="end-value">
+      <div class="input-field col s12 ">
+        <input type="text" name="end-value" id="end_value">
         <label>Sell Limit (Satoshi)</label>
+        <span id="sell-value"></span>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col s12 ">
+        <div id="calculatedPercentageParent" class="card-panel teal">
+          <span id="calculatedPercentage" class="white-text">0%</span>
+        </div>
       </div>
     </div>
   </form>
 </div>
 <script type="text/javascript">
-  var btcValue = '';
+Number.prototype.format = function(n, x) {
+    var re = '\\d(?=(\\d{' + (x || 3) + '})+' + (n > 0 ? '\\.' : '$') + ')';
+    return this.toFixed(Math.max(0, ~~n)).replace(new RegExp(re, 'g'), '$&,');
+};
+var coinValue;
+var startValue;
+var endValue;
+
   $(document).ready(function(){
-  
-    function setBTCValue(BTCdata){
-      btcValue = BTCdata[0];
-      // btcValue = BTCdata;
-      console.log('setting value');
+    function setBuyLimit(){
+      console.log(coinValue[0]);
+      startValue = $('#start_value').val()*coinValue[0].price_usd;
+      $('#buy-value').html("$"+startValue.format(2));
+    }
+    function setSellLimit(){
+      console.log(coinValue[0]);
+      endValue = $('#end_value').val()*coinValue[0].price_usd;
+      $('#sell-value').html("$"+endValue.format(2));
+    }
+    function setCoinValue(data){
+      coinValue = data;
+      setBuyLimit();
+      setSellLimit();
     };
-    
+
     function getBTCValue(){
-      // $.get("https://api.coinmarketcap.com/v1/ticker/bitcoin/");
-      $.get("https://api.coinmarketcap.com/v1/ticker/bitcoin/", function(data){
-        setBTCValue(data[0]);
-        // console.log(data[0]);
-    
-        
-      });
-      
+
+        $.get("https://api.coinmarketcap.com/v1/ticker/bitcoin/", function(data){
+        $("label[for='baseBTC']").html("BTC - $"+data[0].price_usd);
+         setCoinValue(data);
+
+       });
+
+    }
+    function getETHValue(){
+      $.get("https://api.coinmarketcap.com/v1/ticker/ethereum/", function(data){
+        setCoinValue(data);
+        $("label[for='baseETH']").html("ETH - $"+data[0].price_usd);
+
+        });
+    }
+    function calculateDifference(){
+      var difference = endValue - startValue;
+      var convertedPercentage = difference / startValue * 100;
+      var usdDifference = difference;
+      console.log(convertedPercentage + coinValue[0].price_usd);
+      if(convertedPercentage < 0){
+        $("#calculatedPercentageParent").removeClass("teal").addClass("red");
+      }else {
+        $("#calculatedPercentageParent").toggleClass("teal").removeClass("red");
+      }
+      $("#calculatedPercentage").html(convertedPercentage.toFixed(2) +"% : USD $" + usdDifference.toFixed(2));
+
     }
     getBTCValue();
-    
-    // console.log("btc Value"+ btcValue);
-    // var ethPrice = '';
-    // function getCurrentPrices(){
-    //  var btcvalue =
-    //    $.get("https://api.coinmarketcap.com/v1/ticker/bitcoin/", function(data){
-    //      $("label[for='baseBTC']").html("BTC - $"+data[0].price_usd);
-    //      //console.log(data[0]);
-    //      return data[0].price_usd;
-
-    //    });
-    //    console.log("Looking for btc value" + btcvalue);
-    //  return btcvalue;
-    // }
-    // function getEthereiumValue(){
-    //  $.get("https://api.coinmarketcap.com/v1/ticker/ethereum/", function(data){
-    //    ethPrice = data[0].price_usd;
-    //    console.log("nested ethPrice value " + ethPrice);
-    //  });
-    //  console.log("Inside parent function" + ethPrice);
-      
-    // }
-    // getCurrentPrices();
-    // getEthereiumValue();
-    // // var ethPrice = getEthereiumValue();
-    // console.log("outside function" + ethPrice);
-    
-    // console.log(getCurrentPrices);
-    $('#start_value').keydown(function(){
-      console.log(btcValue);
-      $('#buy-value').html($(this).val());
+    getETHValue();
+    $("input[name='basecoin']").change(function(){
+      if($(this).val() == 'BTC'){
+        getBTCValue();
+        console.log('got value of BTC');
+      }
+      if($(this).val() == 'ETH'){
+        getETHValue();
+        console.log('got value of ETH');
+      }
     });
+
+    $('#start_value').keyup(function(){
+      setBuyLimit();
+      calculateDifference();
+    });
+    $('#end_value').keyup(function(){
+      setSellLimit();
+      calculateDifference();
+    });
+
     Materialize.updateTextFields();
   });
 </script>
