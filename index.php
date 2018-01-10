@@ -18,18 +18,15 @@
 
 </script>
 <body>
-<div class="row">
-  <div id="response"></div>
-  <form class="col s12 m12">
+<div class="container">
+  
+  <form class="">
     <div class="row">
       <input name="basecoin" type="radio" id="baseBTC" value="BTC"/>
       <label for="baseBTC">BTC</label>
 
       <input name="basecoin" type="radio" id="baseETH" value="ETH" checked />
       <label for="baseETH">ETH</label>
-
-
-
     </div>
 
 
